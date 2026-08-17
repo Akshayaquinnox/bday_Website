@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Pop the Balloons!</title>
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow-y: auto;
+            font-family: Arial, sans-serif;
+        }
+
+        /* Background image */
+        body {
+            background-image: url("2.png");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            color: white;
+            text-align: center;
+        }
+
+        /* Center content */
+        .content {
+            margin-top: 80px;
+            text-shadow: 2px 2px 8px black;
+        }
+
+        .title {
+            font-size: 32px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+       .balloon-section {
+    margin-top: 60px;
+    text-align: center;
+    color: white;
+    text-shadow: 2px 2px 8px black;
+}
+
+
+.title {
+    font-size: 32px;
+    font-weight: bold;
+    margin-bottom: 30px;
+}
+
+.balloon-field {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 25px;
+    margin-top: 40px;
+}
+
+.balloon {
+    width: 100px;
+    height: 130px;
+    border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+    position: relative;
+    cursor: pointer;
+    border: none;
+    animation: float 3s ease-in-out infinite;
+    transition: transform 0.3s, opacity 0.3s;
+    font-size: 24px;
+    font-weight: bold;
+    color: white;
+    text-shadow: 2px 2px 8px black;
+}
+
+/* Balloon colors */
+.balloon[data-color="pink"] { background: #ff69b4; }
+.balloon[data-color="blue"] { background: #1e90ff; }
+.balloon[data-color="yellow"] { background: #ffd700; }
+.balloon[data-color="purple"] { background: #9370db; }
+.balloon[data-color="green"] { background: #32cd32; }
+.balloon[data-color="orange"] { background: #ffa500; }
+
+.balloon:hover {
+    transform: scale(1.1);
+}
+
+.balloon.vanish {
+    background: none;
+    animation: none;
+    transform: scale(1);
+    color: white;
+    opacity: 1;
+}
+
+@keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-15px); }
+    100% { transform: translateY(0px); }
+}
+
+
+
+    </style>
+</head>
+<body>
+    
+    <div class="content">
+        <audio id="popSound" src="pop.mp3" preload="auto"></audio>
+        <div class="title">Pop the Balloons 🎈</div>
+     <section id="step2" class="screen">
+    <div class="balloon-stage">
+        <h2>Pop the balloons!</h2>
+        <div class="balloon-field" id="balloonField">
+            <button class="balloon" data-word="You" data-color="pink"></button>
+            <button class="balloon" data-word="are" data-color="blue"></button>
+            <button class="balloon" data-word="very" data-color="yellow"></button>
+            <button class="balloon" data-word="beautiful" data-color="purple"></button>
+            <button class="balloon" data-word="and" data-color="green"></button>
+            <button class="balloon" data-word="speacial" data-color="orange"></button>
+        </div>
+    </div>
+</section>
+    <div class="reveal-text"></div>
+</div>
+<button class="img-btn" onclick="location.href='next.html'">
+    <img src="yourImage.png" alt="Next">
+</button>
+
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+<script>
+    const balloonField = document.getElementById('balloonField');
+    const balloons = document.querySelectorAll('.balloon');
+    const popSound = document.getElementById('popSound');
+
+    function startBalloonScene() {
+        let poppedCount = 0;
+
+        balloons.forEach((balloon) => {
+            balloon.addEventListener('click', () => {
+                if (balloon.classList.contains('vanish')) return;
+
+                // Play pop sound
+                popSound.currentTime = 0;
+                popSound.play();
+
+                // Replace balloon with word
+                const word = balloon.getAttribute('data-word');
+                balloon.textContent = word;
+                balloon.classList.add('vanish');
+                poppedCount++;
+
+                // 🎉 Confetti burst for each pop
+                confetti({
+                    particleCount: 80,
+                    spread: 70,
+                    origin: {
+                        x: (balloon.offsetLeft + balloon.offsetWidth / 2) / window.innerWidth,
+                        y: (balloon.offsetTop + balloon.offsetHeight / 2) / window.innerHeight
+                    }
+                });
+
+                // 🎊 When all balloons are gone
+                if (poppedCount === balloons.length) {
+                    setTimeout(() => {
+                        confetti({
+                            particleCount: 300,
+                            spread: 120,
+                            origin: { y: 0.6 }
+                        });
+                    }, 500);
+                }
+            });
+        });
+    }
+
+    window.onload = startBalloonScene;
+</script>
+
+
+</body>
+
+</html>
