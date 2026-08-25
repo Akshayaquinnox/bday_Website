@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Make a Wish! 🎂</title>
+<style>
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    margin: 0;
+    min-height: 100vh;
+    overflow: hidden;
+    display: grid;
+    place-items: center;
+    font-family: "Trebuchet MS", Arial, sans-serif;
+    background:
+      radial-gradient(circle at 20% 20%, rgba(255,255,255,.8) 0 3px, transparent 4px),
+      radial-gradient(circle at 80% 30%, rgba(255,255,255,.7) 0 4px, transparent 5px),
+      linear-gradient(135deg, #ffd6e7, #e4d7ff 50%, #cceeff);
+  }
+
+  .card {
+    width: min(92vw, 520px);
+    padding: 30px 25px 35px;
+    text-align: center;
+    border-radius: 35px;
+    background: rgba(255, 255, 255, 0.45);
+    backdrop-filter: blur(14px);
+    box-shadow: 0 20px 50px rgba(96, 52, 110, 0.2);
+  }
+
+  h1 {
+    margin: 0 0 8px;
+    color: #7b4b70;
+    font-size: clamp(2rem, 7vw, 3.5rem);
+  }
+
+  .subtitle {
+    margin: 0 0 20px;
+    color: #7c6680;
+    font-size: 1.05rem;
+  }
+
+  /* CAKE */
+  .cake-area {
+    position: relative;
+    height: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: end;
+  }
+
+  .cake {
+    position: relative;
+    width: 280px;
+    height: 190px;
+  }
+
+  .plate {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 330px;
+    height: 32px;
+    transform: translateX(-50%);
+    border-radius: 50%;
+    background: #f4f5ff;
+    box-shadow:
+      inset 0 -8px 0 #d9ddf2,
+      0 10px 18px rgba(80, 70, 120, 0.15);
+  }
+
+  .layer {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 18px 18px 28px 28px;
+    box-shadow: inset 0 -8px rgba(0,0,0,.06);
+  }
+
+  .bottom {
+    bottom: 20px;
+    width: 280px;
+    height: 72px;
+    background: #e99ab2;
+  }
+
+  .middle {
+    bottom: 78px;
+    width: 235px;
+    height: 60px;
+    background: #f5b6c7;
+  }
+
+  .top {
+    bottom: 132px;
+    width: 190px;
+    height: 48px;
+    background: #ffd1dc;
+  }
+
+  .icing {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 50px;
+    background: #fff7fa;
+    z-index: 2;
+  }
+
+  .icing-top {
+    bottom: 171px;
+    width: 198px;
+    height: 22px;
+  }
+
+  .icing-middle {
+    bottom: 126px;
+    width: 240px;
+    height: 18px;
+  }
+
+  .icing-bottom {
+    bottom: 72px;
+    width: 285px;
+    height: 20px;
+  }
+
+  .sprinkles {
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+    pointer-events: none;
+  }
+
+  .sprinkle {
+    position: absolute;
+    width: 7px;
+    height: 16px;
+    border-radius: 10px;
+    background: #ff6f9f;
+    transform: rotate(35deg);
+  }
+
+  .sprinkle:nth-child(2n) { background: #9d7aff; transform: rotate(-30deg); }
+  .sprinkle:nth-child(3n) { background: #63c8b4; transform: rotate(70deg); }
+  .sprinkle:nth-child(4n) { background: #ffd45c; transform: rotate(10deg); }
+
+  .sprinkle:nth-child(1) { left: 50px; top: 105px; }
+  .sprinkle:nth-child(2) { left: 95px; top: 145px; }
+  .sprinkle:nth-child(3) { left: 145px; top: 100px; }
+  .sprinkle:nth-child(4) { left: 195px; top: 145px; }
+  .sprinkle:nth-child(5) { left: 235px; top: 105px; }
+  .sprinkle:nth-child(6) { left: 75px; top: 175px; }
+  .sprinkle:nth-child(7) { left: 130px; top: 160px; }
+  .sprinkle:nth-child(8) { left: 180px; top: 178px; }
+  .sprinkle:nth-child(9) { left: 215px; top: 170px; }
+
+  /* CANDLES */
+  .candles {
+    position: absolute;
+    bottom: 183px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 42px;
+    z-index: 5;
+  }
+
+  .candle {
+    position: relative;
+    width: 16px;
+    height: 55px;
+    border-radius: 8px 8px 3px 3px;
+    background: repeating-linear-gradient(
+      45deg,
+      #8b6cff 0 7px,
+      #ffffff 7px 14px
+    );
+    box-shadow: inset -3px 0 rgba(0,0,0,.08);
+  }
+
+  .candle:nth-child(2) {
+    background: repeating-linear-gradient(
+      45deg,
+      #ff7aa2 0 7px,
+      #ffffff 7px 14px
+    );
+    height: 65px;
+  }
+
+  .flame {
+    position: absolute;
+    width: 19px;
+    height: 28px;
+    left: 50%;
+    top: -29px;
+    transform: translateX(-50%);
+    border-radius: 50% 50% 50% 50%;
+    background: linear-gradient(#fff7a8, #ffb13b 60%, #ff6b55);
+    box-shadow: 0 0 18px #ffcf5c;
+    animation: flicker .6s infinite alternate;
+    transform-origin: bottom center;
+  }
+
+  @keyframes flicker {
+    from { transform: translateX(-50%) rotate(-5deg) scale(1); }
+    to   { transform: translateX(-50%) rotate(5deg) scale(1.08); }
+  }
+
+  .blown .flame {
+    animation: blowOut .5s forwards;
+  }
+
+  @keyframes blowOut {
+    to {
+      opacity: 0;
+      transform: translate(30px, -15px) scale(0);
+    }
+  }
+
+  button {
+    border: 0;
+    padding: 15px 28px;
+    border-radius: 999px;
+    cursor: pointer;
+    font-size: 1.05rem;
+    font-weight: bold;
+    color: white;
+    background: linear-gradient(135deg, #ff76a6, #9d7aff);
+    box-shadow: 0 8px 18px rgba(150, 90, 180, .3);
+    transition: transform .2s, box-shadow .2s;
+  }
+
+  button:hover {
+    transform: translateY(-3px) scale(1.03);
+    box-shadow: 0 12px 25px rgba(150, 90, 180, .35);
+  }
+
+  .message {
+    min-height: 30px;
+    margin-top: 16px;
+    color: #76556f;
+    font-weight: bold;
+    font-size: 1.1rem;
+  }
+
+  .confetti {
+    position: fixed;
+    width: 10px;
+    height: 16px;
+    top: -20px;
+    animation: fall 3s linear forwards;
+    pointer-events: none;
+  }
+
+  @keyframes fall {
+    to {
+      transform: translate(var(--x), 110vh) rotate(720deg);
+      opacity: 0;
+    }
+  }
+</style>
+</head>
+
+<body>
+  <main class="card">
+    <h1>Make a Wish! 🎂</h1>
+    <p class="subtitle">Close your eyes, make a wish... then blow the candles!</p>
+
+    <div class="cake-area">
+      <div class="cake" id="cake">
+
+        <div class="candles">
+          <div class="candle"><div class="flame"></div></div>
+          <div class="candle"><div class="flame"></div></div>
+          <div class="candle"><div class="flame"></div></div>
+        </div>
+
+        <div class="icing icing-top"></div>
+        <div class="icing icing-middle"></div>
+        <div class="icing icing-bottom"></div>
+
+        <div class="layer top"></div>
+        <div class="layer middle"></div>
+        <div class="layer bottom"></div>
+
+        <div class="sprinkles">
+          <span class="sprinkle"></span>
+          <span class="sprinkle"></span>
+          <span class="sprinkle"></span>
+          <span class="sprinkle"></span>
+          <span class="sprinkle"></span>
+          <span class="sprinkle"></span>
+          <span class="sprinkle"></span>
+          <span class="sprinkle"></span>
+          <span class="sprinkle"></span>
+        </div>
+
+        <div class="plate"></div>
+      </div>
+    </div>
+
+    <button id="blowBtn">💨 Blow the Candles</button>
+    <div class="message" id="message"></div>
+  </main>
+
+<script>
+  const button = document.getElementById("blowBtn");
+  const cake = document.getElementById("cake");
+  const message = document.getElementById("message");
+
+  button.addEventListener("click", () => {
+    if (cake.classList.contains("blown")) return;
+
+    cake.classList.add("blown");
+    message.textContent = "✨ Yay! Your wish has been sent to the stars! ✨";
+    button.textContent = "🎉 Wish Made!";
+    button.style.cursor = "default";
+
+    for (let i = 0; i < 100; i++) {
+      const confetti = document.createElement("div");
+      confetti.className = "confetti";
+
+      confetti.style.left = Math.random() * 100 + "vw";
+      confetti.style.background = [
+        "#ff7aa2", "#9d7aff", "#63c8b4",
+        "#ffd45c", "#ff8f5c"
+      ][Math.floor(Math.random() * 5)];
+
+      confetti.style.setProperty(
+        "--x",
+        (Math.random() * 300 - 150) + "px"
+      );
+
+      confetti.style.animationDuration =
+        (2 + Math.random() * 2) + "s";
+
+      document.body.appendChild(confetti);
+
+      setTimeout(() => confetti.remove(), 4000);
+    }
+  });
+</script>
+</body>
+</html>
